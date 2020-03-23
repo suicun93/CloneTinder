@@ -17,7 +17,7 @@ class MyAppBar extends StatelessWidget {
 	Widget build(BuildContext context) {
 		return Container(
 			height: 56.0, // in logical pixels
-			padding: const EdgeInsets.symmetric(horizontal: 8.0),
+			padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
 			decoration: BoxDecoration(color: Colors.white),
 			// Row is a horizontal, linear layout.
 			child: Row(
@@ -33,7 +33,7 @@ class MyAppBar extends StatelessWidget {
 						child: Text("tinder",
 							style: TextStyle(
 								color: Colors.red,
-								height: 1,
+								height: 1.2,
 								fontSize: 30,
 								fontWeight: FontWeight.bold,
 								fontFamily: 'Arial',
@@ -61,57 +61,55 @@ class MyScaffold extends StatelessWidget {
 			child: Column(
 				children: <Widget>[
 					MyAppBar(),
-					Divider(
-						height: 10,
-						color: Colors.white,
-					),
+					Divider(height: 40, color: Colors.transparent,),
 					Column(
 							children: <Widget>[
 								Image.asset('assets/platzhalter_bild.jpg'),
-								Text(
-									'My address is',
+								Text('My address is',
 									style: TextStyle(
-										height: 3,
+										height: 5,
 										fontSize: 15,
-										color: Colors.black.withAlpha(900),
-									),
+										color: Colors.black.withAlpha(920),),
 								),
 								Text(
 									'3choume, Shizuokaken',
 									style: TextStyle(
-										height: 1,
-										fontSize: 28,
+										height: 1.3,
+										fontSize: 27,
 									),
 								),
-								Align(
-										child:
-										Container(
-											child: Row(
-													children: <Widget>[
-														IconButton(
-																icon: Icon(Icons
-																		.slow_motion_video
-																)),
-														IconButton(
-																icon: Icon(Icons
-																		.account_circle
-																)),
-														IconButton(
-																icon: Icon(Icons
-																		.ac_unit
-																)),
-														IconButton(
-																icon: Icon(Icons
-																		.zoom_out_map
-																)),
-														IconButton(
-																icon: Icon(Icons
-																		.whatshot
-																)),
-													]
+								Divider(color: Colors.transparent,height: 40,),
+								Row(
+										mainAxisAlignment: MainAxisAlignment
+												.center,
+										children: <Widget>[
+											IconButton(
+													onPressed: null,
+													icon: Icon(Icons
+															.slow_motion_video
+													)
 											),
-										)
-								
+											IconButton(
+													onPressed: null,
+													icon: Icon(Icons
+															.account_circle
+													)),
+											IconButton(
+													onPressed: null,
+													icon: Icon(Icons
+															.ac_unit
+													)),
+											IconButton(
+													onPressed: null,
+													icon: Icon(Icons
+															.zoom_out_map
+													)),
+											IconButton(
+													onPressed: null,
+													icon: Icon(Icons
+															.whatshot
+													)),
+										]
 								),
 							]
 					),
@@ -121,49 +119,3 @@ class MyScaffold extends StatelessWidget {
 		);
 	}
 }
-
-//
-//class RandomWords extends StatefulWidget {
-//	@override
-//	RandomWordsState createState() => RandomWordsState();
-//}
-//
-//class RandomWordsState extends State<RandomWords> {
-//	final _suggestions = <WordPair>[];
-//	final _biggerFont = const TextStyle(fontSize: 18.0);
-//
-//	@override
-//	Widget build(BuildContext context) {
-//		return Scaffold(
-//			appBar: AppBar(
-//				title: Text('Startup Name Generator'),
-//			),
-//			body: _buildSuggestions(),
-//		);
-//	}
-//
-//	Widget _buildSuggestions() {
-//		return ListView.builder(
-//				padding: const EdgeInsets.all(10.0),
-//				itemBuilder: /*1*/ (context, i) {
-//					if (i.isOdd) return Divider();
-//					/*2*/
-//
-//					final index = i ~/ 2; /*3*/
-//					if (index >= 10) {
-//						_suggestions.addAll(
-//								generateWordPairs().take(1)); /*4*/
-//					}
-//					return _buildRow(_suggestions[index]);
-//				});
-//	}
-//
-//	Widget _buildRow(WordPair pair) {
-//		return ListTile(
-//			title: Text(
-//				pair.asPascalCase,
-//				style: _biggerFont,
-//			),
-//		);
-//	}
-//}
