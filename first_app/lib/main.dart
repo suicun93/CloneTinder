@@ -4,6 +4,7 @@ import 'package:firstapp/Common/JSONUser.dart';
 import 'package:firstapp/Common/Network.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:transparent_image/transparent_image.dart';
 import 'UI/MyAppBar.dart';
 
 void main() {
@@ -29,27 +30,32 @@ class MyScaffoldState extends State<MyScaffold> {
 	IconType selected = IconType.Webcam;
 	var _iconColors = [defColor, defColor, defColor, defColor, defColor];
 	UserBean userBean;
+	bool loading = false;
 	
 	void loadAPI() async {
-		setState(() =>
-		{
-			userBean = null,
-			_title = 'Data is loading',
-			_info = 'XXXX',
-			_image = 'assets/platzhalter_bild.jpg',
-			selected = IconType.Webcam,
-			_iconColors[0] = selectedColor
-		});
-		JSONUser futureUser = await Network.loadUser();
-		userBean = futureUser.results[0].user;
-		setState(() =>
-		{
-		});
+		if (!loading) {
+			loading = true;
+			setState(() =>
+			{
+				userBean = null,
+				_title = 'Data is loading',
+				_info = 'XXXX',
+				_image = 'assets/platzhalter_bild.jpg',
+				_iconColors[selected.value] = defColor,
+				selected = IconType.Webcam,
+				_iconColors[0] = selectedColor
+			});
+			JSONUser futureUser = await Network.loadUser();
+			userBean = futureUser.results[0].user;
+			setState(() =>
+			{
+			});
+			loading = false;
+		}
 	}
 	
-	@override
-	void setState(fn) {
-		super.setState(fn);
+	void saveData() {
+	
 	}
 	
 	@override
@@ -61,6 +67,7 @@ class MyScaffoldState extends State<MyScaffold> {
 	@override
 	Widget build(BuildContext context) {
 		if (userBean != null) {
+			_image = userBean.picture;
 			_title = 'My ${selected.text} is';
 			switch (selected) {
 				case IconType.Webcam:
@@ -91,14 +98,31 @@ class MyScaffoldState extends State<MyScaffold> {
 					Divider(height: 40, color: Colors.transparent),
 					Column(
 							children: <Widget>[
-								GestureDetector(
-									onTap: () {loadAPI();},
+								GestureDetector(onPanUpdate: (details) {
+									if (details.delta.dx > 0) {
+										saveData();
+									} else {
+										loadAPI();
+									}
+								},
 									child: Container(
+										width: 380,
+										height: 380,
 										child: ClipRRect(
-											borderRadius: BorderRadius.circular(20.0),
-											child: Image.asset(_image,
-													width: 380.0, height: 380.0),
-										),),
+												borderRadius: BorderRadius
+														.circular(
+														20.0),
+												child: FittedBox(
+													child: FadeInImage
+															.memoryNetwork(
+															placeholder: kTransparentImage,
+															image: _image,
+															width: 380.0,
+															height: 380.0),
+													fit: BoxFit.fill,
+												)
+										),
+									),
 								),
 								Text(
 									_title,
