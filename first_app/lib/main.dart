@@ -1,6 +1,5 @@
 import 'dart:ui';
 import 'package:firstapp/Common/Constants.dart';
-import 'package:firstapp/UI/FiveIcons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'UI/MyAppBar.dart';
@@ -24,32 +23,23 @@ class MyScaffoldState extends State<MyScaffold> {
 	String _title = 'My address is';
 	String _info = '3choume, Shizuokaken';
 	String _image = 'assets/platzhalter_bild.jpg';
-	FiveIcons fiveIcons = FiveIcons();
+	static Color defColor = Colors.black38;
 	IconType selected = IconType.Webcam;
 	var ready = false;
-	
-	MyScaffoldState() {
-		fiveIcons.onSelected = (selected) {
-			print(selected.value);
-			this.selected = selected;
-//			switch (selected) {
-//				case IconType.Webcam:
-//				case IconType.Calendar:
-//				case IconType.Map:
-//				case IconType.Phone:
-//				case IconType.Lock:
-//				default:
-//					break;
-//			}
-		};
-	}
+	var _iconColors = [
+		defColor,
+		defColor,
+		defColor,
+		defColor,
+		defColor
+	];
 	
 	@override
 	Widget build(BuildContext context) {
 		_title = 'My ${selected.value} is';
 		_info = '3choume, Shizuokaken ${selected.value}';
+		_iconColors[selected.value] = selectedColor;
 		return Material(
-			// Column is a vertical, linear layout.
 			child: Column(
 				children: <Widget>[
 					MyAppBar(),
@@ -67,7 +57,8 @@ class MyScaffoldState extends State<MyScaffold> {
 									style: TextStyle(
 											height: 5,
 											fontSize: 15,
-											color: Colors.black.withAlpha(920)
+											color: Colors.black.withAlpha(
+													920)
 									),
 								),
 								Text(
@@ -77,15 +68,118 @@ class MyScaffoldState extends State<MyScaffold> {
 											fontSize: 30
 									),
 								),
-								Divider(color: Colors.transparent, height: 40),
-								fiveIcons
+								Divider(color: Colors.transparent,
+										height: 40),
+								Row(
+										mainAxisAlignment:
+										MainAxisAlignment.center,
+										children: <Widget>[
+											IconButton(
+													onPressed: () =>
+													{
+														setState(() {
+															_iconColors[selected
+																	.value] =
+																	defColor;
+															selected = IconType
+																	.Webcam;
+														}),
+													},
+													splashColor: Colors
+															.transparent,
+													highlightColor: Colors
+															.transparent,
+													icon: Icon(
+														IconType.Webcam.icon,
+														color: _iconColors[0],
+													)
+											),
+											IconButton(
+													onPressed: () =>
+													{
+														setState(() {
+															_iconColors[selected
+																	.value] =
+																	defColor;
+															selected = IconType
+																	.Calendar;
+														}),
+													},
+													color: defColor,
+													splashColor: Colors
+															.transparent,
+													highlightColor: Colors
+															.transparent,
+													icon: Icon(
+														IconType.Calendar.icon,
+														color: _iconColors[1],
+													)
+											),
+											IconButton(
+													onPressed: () =>
+													{
+														setState(() {
+															_iconColors[selected
+																	.value] =
+																	defColor;
+															selected = IconType
+																	.Map;
+														}),
+													},
+													splashColor: Colors
+															.transparent,
+													highlightColor: Colors
+															.transparent,
+													icon: Icon(
+														IconType.Map.icon,
+														color: _iconColors[2],
+													)
+											),
+											IconButton(
+												onPressed: () =>
+												{
+													setState(() {
+														_iconColors[selected
+																.value] =
+																defColor;
+														selected =
+																IconType.Phone;
+													}),
+												},
+												splashColor: Colors.transparent,
+												highlightColor: Colors
+														.transparent,
+												icon: Icon(
+													IconType.Phone.icon,
+													color: _iconColors[3],
+												),
+											),
+											IconButton(
+													onPressed: () =>
+													{
+														setState(() {
+															_iconColors[selected
+																	.value] =
+																	defColor;
+															selected = IconType
+																	.Lock;
+														}),
+													},
+													splashColor: Colors
+															.transparent,
+													highlightColor: Colors
+															.transparent,
+													icon: Icon(
+														IconType.Lock.icon,
+														color: _iconColors[4],
+													)
+											),
+										]
+								)
 							]
 					),
 				],
 			),
-			color: Colors.
-			white
-			,
 		);
 	}
 }
