@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class Network {
-	static Future<JSONUser> fetch() async {
+	static Future<JSONUser> loadUser() async {
 		final response = await http.get(
 				'https://randomuser.me/api/0.4/?randomapi');
 		

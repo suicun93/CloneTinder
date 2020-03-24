@@ -22,28 +22,67 @@ class MyScaffold extends StatefulWidget {
 }
 
 class MyScaffoldState extends State<MyScaffold> {
-	String _title = 'My address is';
-	String _info = '3choume, Shizuokaken';
+	String _title = 'Data is loading';
+	String _info = 'XXXX';
 	String _image = 'assets/platzhalter_bild.jpg';
 	static Color defColor = Colors.black38;
 	IconType selected = IconType.Webcam;
 	var _iconColors = [defColor, defColor, defColor, defColor, defColor];
-	Future<JSONUser> futureUser;
+	UserBean userBean;
 	
-	void loadAPI() {
-		futureUser = Network.fetch();
+	void loadAPI() async {
+		setState(() =>
+		{
+			userBean = null,
+			_title = 'Data is loading',
+			_info = 'XXXX',
+			_image = 'assets/platzhalter_bild.jpg',
+			selected = IconType.Webcam,
+			_iconColors[0] = selectedColor
+		});
+		JSONUser futureUser = await Network.loadUser();
+		userBean = futureUser.results[0].user;
+		setState(() =>
+		{
+		});
 	}
 	
 	@override
 	void setState(fn) {
 		super.setState(fn);
+	}
+	
+	@override
+	void initState() {
+		super.initState();
 		loadAPI();
 	}
 	
 	@override
 	Widget build(BuildContext context) {
-		_title = 'My ${selected.value} is';
-		_info = '3choume, Shizuokaken ${selected.value}';
+		if (userBean != null) {
+			_title = 'My ${selected.text} is';
+			switch (selected) {
+				case IconType.Webcam:
+					_info = userBean.name.title + ' ' + userBean.name.first +
+							' ' + userBean.name.last;
+					break;
+				case IconType.Calendar:
+					_info = userBean.email;
+					break;
+				case IconType.Map:
+					_info = userBean.location.street;
+					break;
+				case IconType.Phone:
+					_info = userBean.phone;
+					break;
+				case IconType.Lock:
+					_info = userBean.username;
+					break;
+				default:
+					break;
+			}
+		}
 		_iconColors[selected.value] = selectedColor;
 		return Material(
 			child: Column(
@@ -52,11 +91,14 @@ class MyScaffoldState extends State<MyScaffold> {
 					Divider(height: 40, color: Colors.transparent),
 					Column(
 							children: <Widget>[
-								Image.asset(
-									_image,
-									fit: BoxFit.cover,
-									height: 380,
-									width: 380,
+								GestureDetector(
+									onTap: () {loadAPI();},
+									child: Container(
+										child: ClipRRect(
+											borderRadius: BorderRadius.circular(20.0),
+											child: Image.asset(_image,
+													width: 380.0, height: 380.0),
+										),),
 								),
 								Text(
 									_title,

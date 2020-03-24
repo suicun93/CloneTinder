@@ -43,6 +43,24 @@ extension IconExtension on IconType {
 				break;
 		}
 	}
+	
+	String get text {
+		switch (this) {
+			case IconType.Webcam:
+				return 'name';
+			case IconType.Calendar:
+				return 'email';
+			case IconType.Map:
+				return 'address';
+			case IconType.Phone:
+				return 'phone';
+			case IconType.Lock:
+				return 'username';
+			default:
+				return 'name';
+				break;
+		}
+	}
 }
 
 Color selectedColor = Colors.redAccent;
