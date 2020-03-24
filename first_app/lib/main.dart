@@ -1,5 +1,7 @@
 import 'dart:ui';
 import 'package:firstapp/Common/Constants.dart';
+import 'package:firstapp/Common/JSONUser.dart';
+import 'package:firstapp/Common/Network.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'UI/MyAppBar.dart';
@@ -25,14 +27,18 @@ class MyScaffoldState extends State<MyScaffold> {
 	String _image = 'assets/platzhalter_bild.jpg';
 	static Color defColor = Colors.black38;
 	IconType selected = IconType.Webcam;
-	var ready = false;
-	var _iconColors = [
-		defColor,
-		defColor,
-		defColor,
-		defColor,
-		defColor
-	];
+	var _iconColors = [defColor, defColor, defColor, defColor, defColor];
+	Future<JSONUser> futureUser;
+	
+	void loadAPI() {
+		futureUser = Network.fetch();
+	}
+	
+	@override
+	void setState(fn) {
+		super.setState(fn);
+		loadAPI();
+	}
 	
 	@override
 	Widget build(BuildContext context) {
