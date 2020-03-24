@@ -1,6 +1,8 @@
 import 'dart:ui';
+import 'package:firstapp/UI/FiveIcons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'UI/MyAppBar.dart';
 
 void main() {
 	runApp(MaterialApp(
@@ -8,48 +10,6 @@ void main() {
 		home: MyScaffold(),
 	));
 	SystemChrome.setEnabledSystemUIOverlays([]);
-}
-
-class MyAppBar extends StatelessWidget {
-	
-	// This widget is the root of your application.
-	@override
-	Widget build(BuildContext context) {
-		return Container(
-			height: 56.0, // in logical pixels
-			padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
-			decoration: BoxDecoration(color: Colors.white),
-			// Row is a horizontal, linear layout.
-			child: Row(
-				// <Widget> is the type of items in the list.
-				children: <Widget>[
-					IconButton(
-						icon: Icon(Icons.settings,
-							color: Colors.black26,
-						),
-					),
-					// Expanded expands its child to fill the available space.
-					Expanded(
-						child: Text("tinder",
-							style: TextStyle(
-								color: Colors.red,
-								height: 1.2,
-								fontSize: 30,
-								fontWeight: FontWeight.bold,
-								fontFamily: 'Arial',
-							),
-							textAlign: TextAlign.center,
-						),
-					),
-					IconButton(
-						icon: Icon(Icons.chat_bubble,
-							color: Colors.black26,
-						),
-					),
-				],
-			),
-		);
-	}
 }
 
 class MyScaffold extends StatelessWidget {
@@ -64,53 +24,32 @@ class MyScaffold extends StatelessWidget {
 					Divider(height: 40, color: Colors.transparent,),
 					Column(
 							children: <Widget>[
-								Image.asset('assets/platzhalter_bild.jpg'),
+								Image.asset(
+										'assets/platzhalter_bild.jpg',
+										fit: BoxFit.cover,
+										height: 380,
+										width: 380
+								),
 								Text('My address is',
 									style: TextStyle(
-										height: 5,
-										fontSize: 15,
-										color: Colors.black.withAlpha(920),),
+											height: 5,
+											fontSize: 15,
+											color: Colors.black.withAlpha(920)
+									),
 								),
 								Text(
 									'3choume, Shizuokaken',
 									style: TextStyle(
-										height: 1.3,
-										fontSize: 27,
+											height: 1.3,
+											fontSize: 30
 									),
 								),
-								Divider(color: Colors.transparent,height: 40,),
-								Row(
-										mainAxisAlignment: MainAxisAlignment
-												.center,
-										children: <Widget>[
-											IconButton(
-													onPressed: null,
-													icon: Icon(Icons
-															.slow_motion_video
-													)
-											),
-											IconButton(
-													onPressed: null,
-													icon: Icon(Icons
-															.account_circle
-													)),
-											IconButton(
-													onPressed: null,
-													icon: Icon(Icons
-															.ac_unit
-													)),
-											IconButton(
-													onPressed: null,
-													icon: Icon(Icons
-															.zoom_out_map
-													)),
-											IconButton(
-													onPressed: null,
-													icon: Icon(Icons
-															.whatshot
-													)),
-										]
-								),
+								Divider(color: Colors.transparent, height: 40),
+								FiveIcons(
+									onSelect: (selected) => {
+										print(selected),
+									},
+								)
 							]
 					),
 				],
