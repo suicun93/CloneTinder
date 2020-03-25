@@ -1,3 +1,4 @@
+import 'package:Tinder/DOM/database_helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:ui';
@@ -53,8 +54,14 @@ class MyScaffoldState extends State<MyScaffold> {
 		}
 	}
 	
-	void saveData() {
-	
+	void saveData() async {
+		if (!loading) {
+			loading = true;
+			DatabaseHelper databaseHelper = DatabaseHelper.instance;
+			await databaseHelper.save(User.fromJSON(userBean));
+			loading = false;
+		}
+		await loadAPI();
 	}
 	
 	@override
@@ -99,19 +106,16 @@ class MyScaffoldState extends State<MyScaffold> {
 					Column(
 							children: <Widget>[
 								GestureDetector(onPanUpdate: (details) {
-									if (details.delta.dx > 0) {
+									if (details.delta.dx > 0)
 										saveData();
-									} else {
+									else
 										loadAPI();
-									}
 								},
 									child: Container(
 										width: 380,
 										height: 380,
 										child: ClipRRect(
-												borderRadius: BorderRadius
-														.circular(
-														20.0),
+												borderRadius: BorderRadius.circular(20.0),
 												child: FittedBox(
 													child: buildImage(),
 													fit: BoxFit.fill,
@@ -123,8 +127,7 @@ class MyScaffoldState extends State<MyScaffold> {
 										_title,
 										style: TextStyle(
 												height: 5, fontSize: 15,
-												color: Colors.black.withAlpha(
-														920))
+												color: Colors.black.withAlpha(920))
 								),
 								Text(
 										_info,
@@ -133,24 +136,17 @@ class MyScaffoldState extends State<MyScaffold> {
 								),
 								Divider(color: Colors.transparent, height: 40),
 								Row(
-										mainAxisAlignment:
-										MainAxisAlignment.center,
+										mainAxisAlignment: MainAxisAlignment.center,
 										children: <Widget>[
 											IconButton(
 													onPressed: () =>
-													{
-														setState(() {
-															_iconColors[selected
-																	.value] =
-																	defColor;
-															selected = IconType
-																	.Webcam;
-														}),
-													},
-													splashColor: Colors
-															.transparent,
-													highlightColor: Colors
-															.transparent,
+															setState(() {
+																_iconColors[selected.value] = defColor;
+																selected = IconType.Webcam;
+															})
+													,
+													splashColor: Colors.transparent,
+													highlightColor: Colors.transparent,
 													icon: Icon(
 														IconType.Webcam.icon,
 														color: _iconColors[0],
@@ -158,20 +154,14 @@ class MyScaffoldState extends State<MyScaffold> {
 											),
 											IconButton(
 													onPressed: () =>
-													{
-														setState(() {
-															_iconColors[selected
-																	.value] =
-																	defColor;
-															selected = IconType
-																	.Calendar;
-														}),
-													},
+															setState(() {
+																_iconColors[selected.value] = defColor;
+																selected = IconType.Calendar;
+															})
+													,
 													color: defColor,
-													splashColor: Colors
-															.transparent,
-													highlightColor: Colors
-															.transparent,
+													splashColor: Colors.transparent,
+													highlightColor: Colors.transparent,
 													icon: Icon(
 														IconType.Calendar.icon,
 														color: _iconColors[1],
@@ -181,17 +171,12 @@ class MyScaffoldState extends State<MyScaffold> {
 													onPressed: () =>
 													{
 														setState(() {
-															_iconColors[selected
-																	.value] =
-																	defColor;
-															selected = IconType
-																	.Map;
+															_iconColors[selected.value] = defColor;
+															selected = IconType.Map;
 														}),
 													},
-													splashColor: Colors
-															.transparent,
-													highlightColor: Colors
-															.transparent,
+													splashColor: Colors.transparent,
+													highlightColor: Colors.transparent,
 													icon: Icon(
 														IconType.Map.icon,
 														color: _iconColors[2],
@@ -201,11 +186,8 @@ class MyScaffoldState extends State<MyScaffold> {
 												onPressed: () =>
 												{
 													setState(() {
-														_iconColors[selected
-																.value] =
-																defColor;
-														selected =
-																IconType.Phone;
+														_iconColors[selected.value] = defColor;
+														selected = IconType.Phone;
 													}),
 												},
 												splashColor: Colors.transparent,
@@ -220,17 +202,12 @@ class MyScaffoldState extends State<MyScaffold> {
 													onPressed: () =>
 													{
 														setState(() {
-															_iconColors[selected
-																	.value] =
-																	defColor;
-															selected = IconType
-																	.Lock;
+															_iconColors[selected.value] = defColor;
+															selected = IconType.Lock;
 														}),
 													},
-													splashColor: Colors
-															.transparent,
-													highlightColor: Colors
-															.transparent,
+													splashColor: Colors.transparent,
+													highlightColor: Colors.transparent,
 													icon: Icon(
 														IconType.Lock.icon,
 														color: _iconColors[4],
