@@ -250,6 +250,8 @@ class MyScaffoldState extends State<MyScaffold> {
 	Widget buildImage() {
 		if (!loading) {
 			return FadeInImage.assetNetwork(
+					fadeInDuration: Duration(milliseconds: 10),
+					fadeOutDuration: Duration(milliseconds: 10),
 					imageScale: 0.33,
 					placeholder: 'assets/platzhalter_bild.jpg',
 					image: _image,
