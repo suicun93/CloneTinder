@@ -40,7 +40,7 @@ class MyScaffoldState extends State<MyScaffold> {
 			{
 				userBean = null,
 				_title = 'Data is loading',
-				_info = 'XXXX',
+				_info = '...',
 				_image = 'assets/platzhalter_bild.jpg',
 				_iconColors[selected.value] = defColor,
 				selected = IconType.Webcam,
@@ -49,9 +49,7 @@ class MyScaffoldState extends State<MyScaffold> {
 			JSONUser futureUser = await Network.loadUser();
 			userBean = futureUser.results[0].user;
 			loading = false;
-			setState(() =>
-			{
-			});
+			setState(() => {});
 		}
 	}
 	
