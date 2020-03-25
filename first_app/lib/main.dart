@@ -255,7 +255,7 @@ class MyScaffoldState extends State<MyScaffold> {
 					width: 380.0,
 					height: 380.0);
 		} else {
-			return Image.asset('assets/platzhalter_bild.jpg');
+			return Image.asset(_image);
 		}
 	}
 }
