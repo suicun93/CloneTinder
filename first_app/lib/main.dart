@@ -71,20 +71,20 @@ class MyScaffoldState extends State<MyScaffold> {
 			_title = 'My ${selected.text} is';
 			switch (selected) {
 				case IconType.Webcam:
-					_info = userBean.name.title + ' ' + userBean.name.first +
-							' ' + userBean.name.last;
+					_info = userBean.name.title.capitalize() + ' ' + userBean.name.first.capitalize() +
+							' ' + userBean.name.last.capitalize();
 					break;
 				case IconType.Calendar:
-					_info = userBean.email;
+					_info = userBean.email.capitalize();
 					break;
 				case IconType.Map:
-					_info = userBean.location.street;
+					_info = userBean.location.street.capitalize();
 					break;
 				case IconType.Phone:
 					_info = userBean.phone;
 					break;
 				case IconType.Lock:
-					_info = userBean.username;
+					_info = userBean.username.capitalize();
 					break;
 				default:
 					break;
@@ -253,5 +253,11 @@ class MyScaffoldState extends State<MyScaffold> {
 		} else {
 			return Image.asset('assets/platzhalter_bild.jpg');
 		}
+	}
+}
+
+extension StringExtension on String {
+	String capitalize() {
+		return "${this[0].toUpperCase()}${this.substring(1)}";
 	}
 }
