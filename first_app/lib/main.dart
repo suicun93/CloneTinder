@@ -47,10 +47,10 @@ class MyScaffoldState extends State<MyScaffold> {
 			});
 			JSONUser futureUser = await Network.loadUser();
 			userBean = futureUser.results[0].user;
+			loading = false;
 			setState(() =>
 			{
 			});
-			loading = false;
 		}
 	}
 	
@@ -113,12 +113,7 @@ class MyScaffoldState extends State<MyScaffold> {
 														.circular(
 														20.0),
 												child: FittedBox(
-													child: FadeInImage
-															.memoryNetwork(
-															placeholder: kTransparentImage,
-															image: _image,
-															width: 380.0,
-															height: 380.0),
+													child: buildImage(),
 													fit: BoxFit.fill,
 												)
 										),
@@ -253,5 +248,18 @@ class MyScaffoldState extends State<MyScaffold> {
 				],
 			),
 		);
+	}
+	
+	Widget buildImage() {
+		if (!loading) {
+			return FadeInImage.assetNetwork(
+					imageScale: 0.35,
+					placeholder: 'assets/platzhalter_bild.jpg',
+					image: _image,
+					width: 350.0,
+					height: 350.0);
+		} else {
+			return Image.asset('assets/platzhalter_bild.jpg');
+		}
 	}
 }
