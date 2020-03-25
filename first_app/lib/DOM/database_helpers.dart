@@ -171,13 +171,11 @@ class DatabaseHelper {
 	Future<List<User>> read() async {
 		DatabaseHelper helper = DatabaseHelper.instance;
 		List<User> users = await helper.queryUser();
-		print(users.length);
 		return users;
 	}
 	
 	save(User user) async {
 		DatabaseHelper helper = DatabaseHelper.instance;
 		int id = await helper.insert(user);
-		print('inserted row: $id');
 	}
 }
