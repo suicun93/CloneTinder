@@ -121,22 +121,14 @@ class MyScaffoldState extends State<MyScaffold> {
 								),
 								Text(
 									_title,
-									style: TextStyle(
-											height: 5,
-											fontSize: 15,
-											color: Colors.black.withAlpha(
-													920)
-									),
+									style: TextStyle(height: 5, fontSize: 15,
+											color: Colors.black.withAlpha(920))
 								),
 								Text(
 									_info,
-									style: TextStyle(
-											height: 1.3,
-											fontSize: 30
-									),
+									style: TextStyle(height: 1.3, fontSize: 30)
 								),
-								Divider(color: Colors.transparent,
-										height: 40),
+								Divider(color: Colors.transparent, height: 40),
 								Row(
 										mainAxisAlignment:
 										MainAxisAlignment.center,
@@ -253,11 +245,11 @@ class MyScaffoldState extends State<MyScaffold> {
 	Widget buildImage() {
 		if (!loading) {
 			return FadeInImage.assetNetwork(
-					imageScale: 0.35,
+					imageScale: 0.25,
 					placeholder: 'assets/platzhalter_bild.jpg',
 					image: _image,
-					width: 350.0,
-					height: 350.0);
+					width: 380.0,
+					height: 380.0);
 		} else {
 			return Image.asset('assets/platzhalter_bild.jpg');
 		}
