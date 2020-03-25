@@ -71,15 +71,15 @@ class MyScaffoldState extends State<MyScaffold> {
 			_title = 'My ${selected.text} is';
 			switch (selected) {
 				case IconType.Webcam:
-					_info = userBean.name.title.capitalize() + ' ' +
-							userBean.name.first.capitalize() +
-							' ' + userBean.name.last.capitalize();
+					_info = (userBean.name.title + ' ' +
+							userBean.name.first +
+							' ' + userBean.name.last).titleCase();
 					break;
 				case IconType.Calendar:
-					_info = userBean.email.capitalize();
+					_info = userBean.email;
 					break;
 				case IconType.Map:
-					_info = userBean.location.street.capitalize();
+					_info = userBean.location.street.titleCase();
 					break;
 				case IconType.Phone:
 					_info = userBean.phone;
@@ -263,5 +263,16 @@ class MyScaffoldState extends State<MyScaffold> {
 extension StringExtension on String {
 	String capitalize() {
 		return "${this[0].toUpperCase()}${this.substring(1)}";
+	}
+	
+	String titleCase() {
+		if (this.length <= 1) return this.toUpperCase();
+		var words = this.split(' ');
+		var capitalized = words.map((word) {
+			var first = word.substring(0, 1).toUpperCase();
+			var rest = word.substring(1);
+			return '$first$rest';
+		});
+		return capitalized.join(' ');
 	}
 }
