@@ -1,15 +1,15 @@
-import 'dart:ui';
-import 'package:firstapp/Common/Constants.dart';
-import 'package:firstapp/Common/JSONUser.dart';
-import 'package:firstapp/Common/Network.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:transparent_image/transparent_image.dart';
+import 'dart:ui';
+
+import 'Common/Constants.dart';
+import 'Common/Network.dart';
+import 'Model/JSONUser.dart';
 import 'UI/MyAppBar.dart';
 
 void main() {
 	runApp(MaterialApp(
-		title: 'My app', // used by the OS task switcher
+		title: 'tinder', // used by the OS task switcher
 		home: MyScaffold(),
 	));
 	SystemChrome.setEnabledSystemUIOverlays([]);
@@ -71,7 +71,8 @@ class MyScaffoldState extends State<MyScaffold> {
 			_title = 'My ${selected.text} is';
 			switch (selected) {
 				case IconType.Webcam:
-					_info = userBean.name.title.capitalize() + ' ' + userBean.name.first.capitalize() +
+					_info = userBean.name.title.capitalize() + ' ' +
+							userBean.name.first.capitalize() +
 							' ' + userBean.name.last.capitalize();
 					break;
 				case IconType.Calendar:
@@ -120,13 +121,16 @@ class MyScaffoldState extends State<MyScaffold> {
 									),
 								),
 								Text(
-									_title,
-									style: TextStyle(height: 5, fontSize: 15,
-											color: Colors.black.withAlpha(920))
+										_title,
+										style: TextStyle(
+												height: 5, fontSize: 15,
+												color: Colors.black.withAlpha(
+														920))
 								),
 								Text(
-									_info,
-									style: TextStyle(height: 1.3, fontSize: 30)
+										_info,
+										style: TextStyle(
+												height: 1.3, fontSize: 30)
 								),
 								Divider(color: Colors.transparent, height: 40),
 								Row(
@@ -245,7 +249,7 @@ class MyScaffoldState extends State<MyScaffold> {
 	Widget buildImage() {
 		if (!loading) {
 			return FadeInImage.assetNetwork(
-					imageScale: 0.25,
+					imageScale: 0.33,
 					placeholder: 'assets/platzhalter_bild.jpg',
 					image: _image,
 					width: 380.0,

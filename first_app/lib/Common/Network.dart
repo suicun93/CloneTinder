@@ -1,4 +1,4 @@
-import 'package:firstapp/Common/JSONUser.dart';
+import 'package:firstapp/Model/JSONUser.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
