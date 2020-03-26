@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:Tinder/DOM/database_helpers.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:ui';
@@ -15,7 +16,7 @@ import 'Model/JSONUser.dart';
 void main() {
 	runApp(MaterialApp(
 		debugShowCheckedModeBanner: false,
-		title: 'tinder',
+		title: app_name,
 		home: MyScaffold(),
 	));
 	SystemChrome.setEnabledSystemUIOverlays([]);
@@ -66,7 +67,7 @@ class MyScaffoldState extends State<MyScaffold> {
 			await databaseHelper.save(User.fromJSON(userBean));
 			loading = false;
 		}
-		await loadAPI();
+		loadAPI();
 	}
 	
 	@override
@@ -90,10 +91,7 @@ class MyScaffoldState extends State<MyScaffold> {
 							children: <Widget>[
 								IconButton(
 									onPressed: () =>
-											setState(() =>
-											{
-												currentPageIsHome = true
-											}),
+											setState(() => currentPageIsHome = true),
 									icon: Icon(
 										Icons.home,
 										color: Colors.black26,
@@ -101,10 +99,10 @@ class MyScaffoldState extends State<MyScaffold> {
 								),
 								// Expanded expands its child to fill the available space.
 								Expanded(
-									child: Text("tinder",
+									child: Text(
+										app_name,
 										style: TextStyle(
-											color: Colors.red,
-											height: 1.3,
+											color: selectedColor,
 											fontSize: 30,
 											fontWeight: FontWeight.bold,
 											fontFamily: 'Arial',
@@ -114,10 +112,7 @@ class MyScaffoldState extends State<MyScaffold> {
 								),
 								IconButton(
 									onPressed: () =>
-											setState(() =>
-											{
-												currentPageIsHome = false
-											}),
+											setState(() => currentPageIsHome = false),
 									icon: Icon(Icons.favorite,
 										color: Colors.black26,
 									),
@@ -125,7 +120,6 @@ class MyScaffoldState extends State<MyScaffold> {
 							],
 						),
 					),
-					Divider(height: 40, color: Colors.transparent),
 					buildPage()
 				],
 			),);
@@ -169,12 +163,13 @@ class MyScaffoldState extends State<MyScaffold> {
 									loadAPI();
 							},
 								child: Container(
-									width: 380,
-									height: 380,
+									margin: EdgeInsets.only(top: 30),
+									padding: EdgeInsets.symmetric(horizontal: 20),
 									child: ClipRRect(
 											borderRadius: BorderRadius.circular(20.0),
 											child: FittedBox(
-												child: buildImage(),
+												child: _buildImage(),
+												alignment: Alignment.center,
 												fit: BoxFit.fill,
 											)
 									),
@@ -183,13 +178,11 @@ class MyScaffoldState extends State<MyScaffold> {
 							Text(
 									_title,
 									style: TextStyle(
-											height: 5, fontSize: 15,
-											color: Colors.black.withAlpha(920))
+											height: 5, fontSize: 15, color: Colors.black.withAlpha(920))
 							),
 							Text(
 									_info,
-									style: TextStyle(
-											height: 1.3, fontSize: 30)
+									style: TextStyle(height: 1.3, fontSize: 30)
 							),
 							Divider(color: Colors.transparent, height: 40),
 							Row(
@@ -200,8 +193,7 @@ class MyScaffoldState extends State<MyScaffold> {
 														setState(() {
 															_iconColors[selected.value] = defColor;
 															selected = IconType.Webcam;
-														})
-												,
+														}),
 												splashColor: Colors.transparent,
 												highlightColor: Colors.transparent,
 												icon: Icon(
@@ -214,14 +206,13 @@ class MyScaffoldState extends State<MyScaffold> {
 														setState(() {
 															_iconColors[selected.value] = defColor;
 															selected = IconType.Calendar;
-														})
-												,
+														}),
 												color: defColor,
 												splashColor: Colors.transparent,
 												highlightColor: Colors.transparent,
 												icon: Icon(
-													IconType.Calendar.icon,
-													color: _iconColors[1],
+														IconType.Calendar.icon,
+														color: _iconColors[1]
 												)
 										),
 										IconButton(
@@ -229,8 +220,7 @@ class MyScaffoldState extends State<MyScaffold> {
 														setState(() {
 															_iconColors[selected.value] = defColor;
 															selected = IconType.Map;
-														})
-												,
+														}),
 												splashColor: Colors.transparent,
 												highlightColor: Colors.transparent,
 												icon: Icon(
@@ -243,14 +233,13 @@ class MyScaffoldState extends State<MyScaffold> {
 													setState(() {
 														_iconColors[selected.value] = defColor;
 														selected = IconType.Phone;
-													})
-											,
+													}),
 											splashColor: Colors.transparent,
 											highlightColor: Colors
 													.transparent,
 											icon: Icon(
-												IconType.Phone.icon,
-												color: _iconColors[3],
+													IconType.Phone.icon,
+													color: _iconColors[3]
 											),
 										),
 										IconButton(
@@ -258,13 +247,12 @@ class MyScaffoldState extends State<MyScaffold> {
 														setState(() {
 															_iconColors[selected.value] = defColor;
 															selected = IconType.Lock;
-														})
-												,
+														}),
 												splashColor: Colors.transparent,
 												highlightColor: Colors.transparent,
 												icon: Icon(
-													IconType.Lock.icon,
-													color: _iconColors[4],
+														IconType.Lock.icon,
+														color: _iconColors[4]
 												)
 										),
 									]
@@ -275,78 +263,86 @@ class MyScaffoldState extends State<MyScaffold> {
 			return FutureBuilder<List<User>>(
 				future: DatabaseHelper.instance.read(), // a previously-obtained Future<String> or null
 				builder: (BuildContext context, AsyncSnapshot<List<User>> snapshot) {
-					List<Widget> children;
+					Widget children;
 					
 					if (snapshot.hasData) {
 						List<User> users = snapshot.data;
-						children = <Widget>[
-							Container(
-								height: 635,
-								child: ListView.builder(
-									padding: const EdgeInsets.all(16.0),
-									itemBuilder: (context, index) {
-										return _buildRow(users[index]);
-									},
-									itemCount: users.length,
-								),
-							),
-						];
+						children =
+								Container(
+										margin: EdgeInsets.fromLTRB(1, 0, 1, 0),
+										height: 670,
+										child: ListView.builder(
+											itemBuilder: (context, index) {
+												return _buildItem(users[index]);
+											},
+											itemCount: users.length,
+										)
+								);
 					} else if (snapshot.hasError) {
-						children = <Widget>[
-							Icon(
-								Icons.error_outline,
-								color: Colors.red,
-								size: 60,
-							),
-							Padding(
-								padding: const EdgeInsets.only(top: 16),
-								child: Text('Error: ${snapshot.error}'),
-							)
-						];
+						children =
+								Column(
+									mainAxisAlignment: MainAxisAlignment.center,
+									crossAxisAlignment: CrossAxisAlignment.center,
+									children: <Widget>[
+										Icon(
+											Icons.error_outline,
+											color: Colors.red,
+											size: 60,
+										),
+										Padding(
+											padding: const EdgeInsets.only(top: 16),
+											child: Text('Error: ${snapshot.error}'),
+										)
+									],
+								);
 					} else {
-						children = <Widget>[
-							SizedBox(
-								child: CircularProgressIndicator(),
-								width: 60,
-								height: 60,
-							),
-							const Padding(
-								padding: EdgeInsets.only(top: 16),
-								child: Text('Awaiting result...'),
-							)
-						];
+						children =
+								Column(
+										mainAxisAlignment: MainAxisAlignment.center,
+										crossAxisAlignment: CrossAxisAlignment.center,
+										children: <Widget>[
+											SizedBox(
+												child: CircularProgressIndicator(),
+												width: 60,
+												height: 60,
+											),
+											const Padding(
+												padding: EdgeInsets.only(top: 16),
+												child: Text('Awaiting result...'),
+											)
+										]
+								);
 					}
-					return Center(
-						child: Column(
-							mainAxisAlignment: MainAxisAlignment.center,
-							crossAxisAlignment: CrossAxisAlignment.center,
-							children: children,
-						),
-					);
+					return
+						Center(child: children);
 				},
 			);
 		}
 	}
 	
-	Widget _buildRow(User user) {
+	Widget _buildItem(User user) {
 		Uint8List bytes = base64Decode(user.image);
 		return Container(
 			height: 100,
-			padding: const EdgeInsets.all(6.0),
+			margin: const EdgeInsets.fromLTRB(20, 0, 20, 20),
 			child: Row(
 				children: <Widget>[
-					Image.memory(bytes),
+					ClipRRect(
+						borderRadius: BorderRadius.circular(10.0),
+						child: Image.memory(bytes),
+					),
 					VerticalDivider(width: 20),
 					Column(
+						crossAxisAlignment: CrossAxisAlignment.start,
 						children: <Widget>[
-							Divider(height: 10),
 							Text((user.nameTitle + ' ' + user.nameFirst + ' ' + user.nameLast).titleCase(),
 									style: TextStyle(
-											fontSize: 20
-									)
+											fontSize: 20,
+											fontWeight: FontWeight.bold,
+											height: 1.5)
 							),
-							Text(user.address.titleCase()),
-							Text(user.email)
+							Text(user.address.titleCase(), style: TextStyle(height: 1.5)),
+							Text(user.email, style: TextStyle(height: 1.5))
 						],
 					),
 				],
@@ -354,7 +350,7 @@ class MyScaffoldState extends State<MyScaffold> {
 		);
 	}
 	
-	Widget buildImage() {
+	Widget _buildImage() {
 		if (!loading) {
 			return FadeInImage.assetNetwork(
 					fadeInDuration: Duration(milliseconds: 10),
