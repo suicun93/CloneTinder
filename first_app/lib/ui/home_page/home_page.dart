@@ -130,7 +130,6 @@ class _HomePageState extends State<HomePage> {
 	void loadAPI() async {
 		if (!loading) {
 			loading = true;
-			_myIconListBuild.reset();
 			setState(() =>
 			{
 				_userBean = null,
@@ -142,7 +141,10 @@ class _HomePageState extends State<HomePage> {
 			JSONUser futureUser = await Network.loadUser();
 			_userBean = futureUser.results[0].user;
 			loading = false;
-			setState(() => {});
+			setState(() =>
+			{
+				_myIconListBuild.reset()
+			});
 		}
 	}
 	

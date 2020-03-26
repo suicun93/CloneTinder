@@ -7,7 +7,9 @@ import 'package:flutter/material.dart';
 class MyIconList extends StatefulWidget {
 	Function(IconType) onPressIcon;
 	
-	MyIconList({this.onPressIcon});
+	MyIconList({this.onPressIcon}) {
+		__myIconListState = _MyIconListState(this);
+	}
 	
 	_MyIconListState __myIconListState;
 	
@@ -18,7 +20,7 @@ class MyIconList extends StatefulWidget {
 	}
 	
 	@override
-	_MyIconListState createState() => _MyIconListState(this);
+	_MyIconListState createState() => __myIconListState;
 }
 
 class _MyIconListState extends State<MyIconList> {
@@ -81,7 +83,9 @@ class _MyIconListState extends State<MyIconList> {
 	}
 	
 	void reset() {
-		setState(() => {
+		setState(() =>
+		{
+			_iconColors[_selectedIcon.value] = defaultColor,
 			_selectedIcon = IconType.Webcam
 		});
 	}
