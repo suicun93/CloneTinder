@@ -82,7 +82,7 @@ class MyScaffoldState extends State<MyScaffold> {
 			child: Column(
 				children: <Widget>[
 					Container(
-						height: 56.0, // in logical pixels
+						height: 60.0, // in logical pixels
 						padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
 						decoration: BoxDecoration(color: Colors.white),
 						// Row is a horizontal, linear layout.
@@ -133,8 +133,9 @@ class MyScaffoldState extends State<MyScaffold> {
 				switch (selected) {
 					case IconType.Webcam:
 						_info = (userBean.name.title + ' ' +
-								userBean.name.first +
-								' ' + userBean.name.last).titleCase();
+								userBean.name.first + ' ' +
+								userBean.name.last)
+								.titleCase();
 						break;
 					case IconType.Calendar:
 						_info = userBean.email;
@@ -263,23 +264,20 @@ class MyScaffoldState extends State<MyScaffold> {
 			return FutureBuilder<List<User>>(
 				future: DatabaseHelper.instance.read(), // a previously-obtained Future<String> or null
 				builder: (BuildContext context, AsyncSnapshot<List<User>> snapshot) {
-					Widget children;
-					
+					Widget child;
 					if (snapshot.hasData) {
 						List<User> users = snapshot.data;
-						children =
-								Container(
-										margin: EdgeInsets.fromLTRB(1, 0, 1, 0),
-										height: 670,
-										child: ListView.builder(
-											itemBuilder: (context, index) {
-												return _buildItem(users[index]);
-											},
-											itemCount: users.length,
-										)
+						child =
+								Expanded(
+									child: ListView.builder(
+										itemBuilder: (context, index) {
+											return _buildItem(users[index]);
+										},
+										itemCount: users.length,
+									),
 								);
-					} else if (snapshot.hasError) {
-						children =
+					} else if (snapshot.hasError)
+						child =
 								Column(
 									mainAxisAlignment: MainAxisAlignment.center,
 									crossAxisAlignment: CrossAxisAlignment.center,
@@ -295,26 +293,24 @@ class MyScaffoldState extends State<MyScaffold> {
 										)
 									],
 								);
-					} else {
-						children =
-								Column(
-										mainAxisAlignment: MainAxisAlignment.center,
-										crossAxisAlignment: CrossAxisAlignment.center,
-										children: <Widget>[
-											SizedBox(
-												child: CircularProgressIndicator(),
-												width: 60,
-												height: 60,
-											),
-											const Padding(
-												padding: EdgeInsets.only(top: 16),
-												child: Text('Awaiting result...'),
-											)
-										]
-								);
-					}
+					else
+						child = Column(
+								mainAxisAlignment: MainAxisAlignment.center,
+								crossAxisAlignment: CrossAxisAlignment.center,
+								children: <Widget>[
+									SizedBox(
+										child: CircularProgressIndicator(),
+										width: 60,
+										height: 60,
+									),
+									const Padding(
+										padding: EdgeInsets.only(top: 16),
+										child: Text('Awaiting result...'),
+									)
+								]
+						);
 					return
-						Center(child: children);
+						child;
 				},
 			);
 		}
