@@ -183,78 +183,123 @@ class MyScaffoldState extends State<MyScaffold> {
 							),
 							Text(
 									_info,
-									style: TextStyle(height: 1.3, fontSize: 30)
+									style: TextStyle(height: 1.3, fontSize: 35)
 							),
-							Divider(color: Colors.transparent, height: 40),
+							Divider(color: Colors.transparent, height: 30),
 							Row(
 									mainAxisAlignment: MainAxisAlignment.center,
 									children: <Widget>[
-										IconButton(
-												onPressed: () =>
-														setState(() {
-															_iconColors[selected.value] = defColor;
-															selected = IconType.Webcam;
-														}),
-												splashColor: Colors.transparent,
-												highlightColor: Colors.transparent,
-												icon: Icon(
-													IconType.Webcam.icon,
-													color: _iconColors[0],
+										Column(
+											children: <Widget>[
+												Container(
+													width: 30,
+													height: 4,
+													color: getColor(IconType.Webcam),
+												),
+												IconButton(
+														onPressed: () =>
+																setState(() {
+																	_iconColors[selected.value] = defColor;
+																	selected = IconType.Webcam;
+																}),
+														splashColor: Colors.transparent,
+														highlightColor: Colors.transparent,
+														icon: Icon(
+															IconType.Webcam.icon,
+															color: _iconColors[0],
+														)
 												)
+											],
 										),
-										IconButton(
-												onPressed: () =>
-														setState(() {
-															_iconColors[selected.value] = defColor;
-															selected = IconType.Calendar;
-														}),
-												color: defColor,
-												splashColor: Colors.transparent,
-												highlightColor: Colors.transparent,
-												icon: Icon(
-														IconType.Calendar.icon,
-														color: _iconColors[1]
-												)
+										Column(
+												children: <Widget>[
+													Container(
+														width: 30,
+														height: 4,
+														color: getColor(IconType.Calendar),
+													),
+													IconButton(
+															onPressed: () =>
+																	setState(() {
+																		_iconColors[selected.value] = defColor;
+																		selected = IconType.Calendar;
+																	}),
+															color: defColor,
+															splashColor: Colors.transparent,
+															highlightColor: Colors.transparent,
+															icon: Icon(
+																	IconType.Calendar.icon,
+																	color: _iconColors[1]
+															)
+													)
+												]
 										),
-										IconButton(
-												onPressed: () =>
-														setState(() {
-															_iconColors[selected.value] = defColor;
-															selected = IconType.Map;
-														}),
-												splashColor: Colors.transparent,
-												highlightColor: Colors.transparent,
-												icon: Icon(
-														IconType.Map.icon,
-														color: _iconColors[2]
-												)
+										Column(
+												children: <Widget>[
+													Container(
+														width: 30,
+														height: 4,
+														color: getColor(IconType.Map),
+													),
+													IconButton(
+															onPressed: () =>
+																	setState(() {
+																		_iconColors[selected.value] = defColor;
+																		selected = IconType.Map;
+																	}),
+															splashColor: Colors.transparent,
+															highlightColor: Colors.transparent,
+															icon: Icon(
+																	IconType.Map.icon,
+																	color: _iconColors[2]
+															)
+													),
+												]
 										),
-										IconButton(
-											onPressed: () =>
-													setState(() {
-														_iconColors[selected.value] = defColor;
-														selected = IconType.Phone;
-													}),
-											splashColor: Colors.transparent,
-											highlightColor: Colors
-													.transparent,
-											icon: Icon(
-													IconType.Phone.icon,
-													color: _iconColors[3]
-											),
+										Column(
+												children: <Widget>[
+													Container(
+														width: 30,
+														height: 4,
+														color: getColor(IconType.Phone),
+													),
+													IconButton(
+														onPressed: () =>
+																setState(() {
+																	_iconColors[selected.value] = defColor;
+																	selected = IconType.Phone;
+																}),
+														splashColor: Colors.transparent,
+														highlightColor: Colors
+																.transparent,
+														icon: Icon(
+																IconType.Phone.icon,
+																color: _iconColors[3]
+														),
+													),
+												]
 										),
-										IconButton(
-												onPressed: () =>
-														setState(() {
-															_iconColors[selected.value] = defColor;
-															selected = IconType.Lock;
-														}),
-												splashColor: Colors.transparent,
-												highlightColor: Colors.transparent,
-												icon: Icon(
-														IconType.Lock.icon,
-														color: _iconColors[4]
-												)
+										Column(
+												children: <Widget>[
+													Container(
+														width: 30,
+														height: 4,
+														color: getColor(IconType.Lock),
+													),
+													IconButton(
+															onPressed: () =>
+																	setState(() {
+																		_iconColors[selected.value] = defColor;
+																		selected = IconType.Lock;
+																	}),
+															splashColor: Colors.transparent,
+															highlightColor: Colors.transparent,
+															icon: Icon(
+																	IconType.Lock.icon,
+																	color: _iconColors[4]
+															)
+													),
+												]
 										),
 									]
 							)
@@ -359,5 +404,9 @@ class MyScaffoldState extends State<MyScaffold> {
 		} else {
 			return Image.asset(_image);
 		}
+	}
+	
+	Color getColor(IconType iconType) {
+		return selected == iconType ? selectedColor : Colors.transparent;
 	}
 }
