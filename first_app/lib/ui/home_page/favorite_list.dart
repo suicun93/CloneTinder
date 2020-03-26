@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:typed_data';
 
-import '../dom/database_helpers.dart';
-import '../common/string_extension.dart';
+import '../../dom/database_helpers.dart';
+import '../../common/string_extension.dart';
 
 class FavoriteList extends StatelessWidget {
 	

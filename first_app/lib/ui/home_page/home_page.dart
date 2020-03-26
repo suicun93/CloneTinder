@@ -1,11 +1,12 @@
+import 'package:Tinder/ui/home_page/MyIconList.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../common/constants.dart';
-import '../common/network.dart';
-import '../dom/database_helpers.dart';
-import '../model/JSON_user.dart';
-import '../common/string_extension.dart';
+import '../../common/constants.dart';
+import '../../common/network.dart';
+import '../../dom/database_helpers.dart';
+import '../../model/JSON_user.dart';
+import '../../common/string_extension.dart';
 
 class HomePage extends StatefulWidget {
 	@override
@@ -18,18 +19,16 @@ class _HomePageState extends State<HomePage> {
 	String _title = 'Data is loading';
 	String _info = 'XXXX';
 	String _image = 'assets/platzhalter_bild.jpg';
-	static Color defColor = Colors.black38;
 	UserBean _userBean;
 	bool loading = false;
 	IconType selectedIcon = IconType.Webcam;
-	var _iconColors = [defColor, defColor, defColor, defColor, defColor];
-	var _icons = [
-		IconType.Webcam,
-		IconType.Calendar,
-		IconType.Map,
-		IconType.Phone,
-		IconType.Lock];
 	
+	_HomePageState() {
+		_myIconListBuild = MyIconList(
+				onPressIcon: (selectedIcon2) =>
+						setState(() => this.selectedIcon = selectedIcon2)
+		);
+	}
 	
 	@override
 	Widget build(BuildContext context) {
@@ -59,7 +58,6 @@ class _HomePageState extends State<HomePage> {
 					break;
 			}
 		}
-		_iconColors[selectedIcon.value] = selectedColor;
 		return
 			Column(
 					children: <Widget>[
@@ -86,30 +84,24 @@ class _HomePageState extends State<HomePage> {
 						),
 						Text(
 								_title,
-								style: TextStyle(
-										fontSize: 15, color: Colors.black.withAlpha(920))
+								style: TextStyle(fontSize: 15, color: Colors.black54)
 						),
 						Text(
 								_info,
-								style: TextStyle(height: 1.3, fontSize: 35)
+								textAlign: TextAlign.center,
+								maxLines: 2,
+								style: TextStyle(height: 1.3, fontSize: 30)
 						),
-						Divider(color: Colors.transparent, height: 30),
-						Row(
-								mainAxisAlignment: MainAxisAlignment.center,
-								children: <Widget>[
-									_icon(0),
-									_icon(1),
-									_icon(2),
-									_icon(3),
-									_icon(4),
-								]
-						)
+						Divider(color: Colors.transparent, height: 35),
+						_myIconListBuild
 					]
 			);
 	}
 	
+	MyIconList _myIconListBuild;
+	
 	Widget _buildImage() {
-		if (!loading) {
+		if (!loading)
 			return FadeInImage.assetNetwork(
 					fadeInDuration: Duration(milliseconds: 10),
 					fadeOutDuration: Duration(milliseconds: 10),
@@ -118,38 +110,11 @@ class _HomePageState extends State<HomePage> {
 					image: _image,
 					width: 380.0,
 					height: 380.0);
-		} else {
+		else
 			return Image.asset(
 					_image,
 					width: 380,
 					height: 380);
-		}
-	}
-	
-	Widget _icon(int index) {
-		IconType iconType = _icons[index];
-		return Column(
-			children: <Widget>[
-				Container(
-					width: 30,
-					height: 4,
-					color: selectedIcon == iconType ? selectedColor : Colors.transparent,
-				),
-				IconButton(
-						onPressed: () =>
-								setState(() {
-									_iconColors[selectedIcon.value] = defColor; // Change previous selected icon's color
-									selectedIcon = _icons[index];
-								}),
-						splashColor: Colors.transparent,
-						highlightColor: Colors.transparent,
-						icon: Icon(
-							iconType.icon,
-							color: _iconColors[index],
-						)
-				)
-			],
-		);
 	}
 	
 	void saveData() async {
@@ -165,15 +130,14 @@ class _HomePageState extends State<HomePage> {
 	void loadAPI() async {
 		if (!loading) {
 			loading = true;
+			_myIconListBuild.reset();
 			setState(() =>
 			{
 				_userBean = null,
 				_title = 'Data is loading',
 				_info = '...',
 				_image = 'assets/platzhalter_bild.jpg',
-				_iconColors[selectedIcon.value] = defColor,
 				selectedIcon = IconType.Webcam,
-				_iconColors[0] = selectedColor
 			});
 			JSONUser futureUser = await Network.loadUser();
 			_userBean = futureUser.results[0].user;

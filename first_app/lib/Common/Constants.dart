@@ -60,5 +60,5 @@ extension IconExtension on IconType {
 	}
 }
 
-Color selectedColor = Colors.redAccent;
+Color defaultSelectedColor = Colors.redAccent;
 String app_name = 'tinder';

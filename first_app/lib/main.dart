@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'ui/favorite_list.dart';
-import 'ui/home_page.dart';
+import 'ui/home_page/favorite_list.dart';
+import 'ui/home_page/home_page.dart';
 import 'ui/app_bar.dart';
 import 'common/constants.dart';
 
