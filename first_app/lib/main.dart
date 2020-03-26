@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'ui/favorite_list.dart';
 import 'ui/home_page.dart';
 import 'ui/app_bar.dart';
-import 'Common/constants.dart';
+import 'common/constants.dart';
 
 void main() {
 	runApp(MaterialApp(
@@ -24,10 +24,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-	static bool currentPageIsHome = true;
+	static bool _currentPageIsHome = true;
 	
 	_changeCurrentPage(bool homePage) {
-		setState(() => {currentPageIsHome = homePage});
+		setState(() => {_currentPageIsHome = homePage});
 	}
 	
 	@override
@@ -46,9 +46,9 @@ class _MyHomePageState extends State<MyHomePage> {
 	}
 	
 	Widget _mainPageBuild() {
-		if (currentPageIsHome) {
+		if (_currentPageIsHome)
 			return HomePage();
-		} else
+		else
 			return FavoriteList();
 	}
 }

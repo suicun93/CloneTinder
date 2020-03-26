@@ -1,9 +1,10 @@
-import '../common/image_converters.dart';
-import '../model/JSON_user.dart';
 import 'dart:io';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
+
+import '../common/image_converters.dart';
+import '../model/JSON_user.dart';
 
 // database table and column names
 final String tableUsers = 'users';

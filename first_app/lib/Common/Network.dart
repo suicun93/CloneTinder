@@ -1,6 +1,7 @@
-import '../model/JSON_user.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+import '../model/JSON_user.dart';
 
 class Network {
 	static Future<JSONUser> loadUser() async {
