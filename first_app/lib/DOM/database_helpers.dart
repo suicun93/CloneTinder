@@ -1,6 +1,6 @@
+import '../common/image_converters.dart';
+import '../model/JSON_user.dart';
 import 'dart:io';
-import 'package:Tinder/Common/image_converters.dart';
-import 'package:Tinder/Model/JSONUser.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
@@ -176,6 +176,6 @@ class DatabaseHelper {
 	
 	save(User user) async {
 		DatabaseHelper helper = DatabaseHelper.instance;
-		int id = await helper.insert(user);
+		await helper.insert(user);
 	}
 }

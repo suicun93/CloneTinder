@@ -1,4 +1,4 @@
-import 'package:Tinder/Model/JSONUser.dart';
+import '../model/JSON_user.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 

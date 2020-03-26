@@ -22,7 +22,6 @@ extension IconExtension on IconType {
 				return 4;
 			default:
 				return 0;
-				break;
 		}
 	}
 	
@@ -40,7 +39,6 @@ extension IconExtension on IconType {
 				return Icons.lock;
 			default:
 				return Icons.lock;
-				break;
 		}
 	}
 	
@@ -58,7 +56,6 @@ extension IconExtension on IconType {
 				return 'username';
 			default:
 				return 'name';
-				break;
 		}
 	}
 }
