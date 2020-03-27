@@ -7,6 +7,7 @@ import '../../common/string_extension.dart';
 import '../../dom/database_helpers.dart';
 import '../../model/JSON_user.dart';
 import '../../ui/home_page/my_icon_list.dart';
+import '../../generated/demo_localizations.dart';
 
 class HomePage extends StatefulWidget {
 	@override
@@ -100,7 +101,7 @@ class _HomePageState extends State<HomePage> {
 	_setupUser(UserBean userBean) {
 		_currentUserbean = userBean;
 		if (userBean == null) {
-			_title = 'Data is loading';
+//			_title = AppLocalizations.of(context).translate('data_is_loading');
 			_info = '...';
 			_image = 'assets/platzhalter_bild.jpg';
 			// Reset icon to first icon
@@ -111,8 +112,21 @@ class _HomePageState extends State<HomePage> {
 		}
 	}
 	
+	@override
+	didChangeDependencies() {
+		super.didChangeDependencies();
+		_title = '${AppLocalizations.of(context).translate('My')} '
+				'${AppLocalizations.of(context).translate(this._selectedIcon.text)} '
+				'${AppLocalizations.of(context).translate('is')}';
+	}
+	
+	IconType _selectedIcon = IconType.Webcam;
+	
 	_updateInfoByIcon(IconType selectedIcon) {
-		_title = 'My ${selectedIcon.text} is';
+		_selectedIcon = selectedIcon;
+		_title = '${AppLocalizations.of(context).translate('My')} '
+				'${AppLocalizations.of(context).translate(selectedIcon.text)} '
+				'${AppLocalizations.of(context).translate('is')}';
 		switch (selectedIcon) {
 			case IconType.Webcam:
 				_info = ('${_currentUserbean.name.title} '

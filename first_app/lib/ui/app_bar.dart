@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'dart:ui';
 
 import '../common/constants.dart';
+import '../generated/demo_localizations.dart';
 
 class MyAppBar extends StatelessWidget {
 	VoidCallback homeClick;
@@ -27,7 +28,7 @@ class MyAppBar extends StatelessWidget {
 					),
 					Expanded(
 						child: Text(
-							app_name,
+							AppLocalizations.of(context).translate(app_name),
 							style: TextStyle(
 								color: defaultSelectedColor,
 								fontSize: 30,
