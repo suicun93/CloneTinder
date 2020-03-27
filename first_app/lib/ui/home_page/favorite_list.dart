@@ -7,7 +7,6 @@ import '../../dom/database_helpers.dart';
 import '../../common/string_extension.dart';
 
 class FavoriteList extends StatelessWidget {
-	
 	@override
 	Widget build(BuildContext context) {
 		return FutureBuilder<List<User>>(
@@ -16,15 +15,12 @@ class FavoriteList extends StatelessWidget {
 				Widget child;
 				if (snapshot.hasData) {
 					List<User> users = snapshot.data;
-					child =
-							Expanded(
-								child: ListView.builder(
-									itemBuilder: (context, index) {
-										return _buildItem(users[index]);
-									},
-									itemCount: users.length,
-								),
-							);
+					child = Expanded(
+						child: ListView.builder(
+							itemBuilder: (context, index) => _buildItem(users[index]),
+							itemCount: users.length,
+						),
+					);
 				} else if (snapshot.hasError)
 					child =
 							Column(
@@ -79,11 +75,9 @@ class FavoriteList extends StatelessWidget {
 					Column(
 						crossAxisAlignment: CrossAxisAlignment.start,
 						children: <Widget>[
-							Text((user.nameTitle + ' ' + user.nameFirst + ' ' + user.nameLast).titleCase(),
-									style: TextStyle(
-											fontSize: 20,
-											fontWeight: FontWeight.bold,
-											height: 1.5)
+							Text(
+									'${user.nameTitle} ${user.nameFirst} ${user.nameLast}'.titleCase(),
+									style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, height: 1.5)
 							),
 							Text(user.address.titleCase(), style: TextStyle(height: 1.5)),
 							Text(user.email, style: TextStyle(height: 1.5))

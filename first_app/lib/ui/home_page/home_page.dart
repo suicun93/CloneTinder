@@ -11,9 +11,7 @@ import '../../generated/demo_localizations.dart';
 
 class HomePage extends StatefulWidget {
 	@override
-	_HomePageState createState() {
-		return _HomePageState();
-	}
+	_HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
@@ -38,12 +36,13 @@ class _HomePageState extends State<HomePage> {
 		return
 			Column(
 					children: <Widget>[
-						GestureDetector(onPanUpdate: (details) {
-							if (details.delta.dx > 0)
-								_saveData();
-							else
-								_loadAPI();
-						},
+						GestureDetector(
+							onPanUpdate: (details) {
+								if (details.delta.dx > 0)
+									_saveData();
+								else
+									_loadAPI();
+							},
 							child: Container(
 								alignment: Alignment.center,
 								margin: EdgeInsets.fromLTRB(0, 30, 0, 60),
@@ -59,16 +58,8 @@ class _HomePageState extends State<HomePage> {
 								),
 							),
 						),
-						Text(
-								_title,
-								style: TextStyle(fontSize: 15, color: Colors.black54)
-						),
-						Text(
-								_info,
-								textAlign: TextAlign.center,
-								maxLines: 2,
-								style: TextStyle(height: 1.3, fontSize: 30)
-						),
+						Text(_title, style: TextStyle(fontSize: 15, color: Colors.black54)),
+						Text(_info, style: TextStyle(fontSize: 30, height: 1.3)),
 						Divider(color: Colors.transparent, height: 35),
 						_myIconListBuild
 					]
@@ -135,8 +126,6 @@ class _HomePageState extends State<HomePage> {
 			case IconType.Lock:
 				_info = _currentUserbean.username.capitalize();
 				break;
-			default:
-				break;
 		}
 	}
 	
@@ -151,10 +140,7 @@ class _HomePageState extends State<HomePage> {
 					width: 380.0,
 					height: 380.0);
 		else
-			return Image.asset(
-					_image,
-					width: 380,
-					height: 380);
+			return Image.asset(_image, width: 380, height: 380);
 	}
 	
 	@override

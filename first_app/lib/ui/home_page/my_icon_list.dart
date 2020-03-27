@@ -6,17 +6,15 @@ import 'package:flutter/material.dart';
 
 class MyIconList extends StatefulWidget {
 	Function(IconType) onPressIcon;
+	_MyIconListState _myIconListState;
 	
 	MyIconList({this.onPressIcon}) {
 		_myIconListState = _MyIconListState(this);
 	}
 	
-	_MyIconListState _myIconListState;
-	
 	reset() {
-		if (_myIconListState != null) {
+		if (_myIconListState != null)
 			_myIconListState.reset();
-		}
 	}
 	
 	@override
@@ -75,7 +73,7 @@ class _MyIconListState extends State<MyIconList> {
 						highlightColor: Colors.transparent,
 						icon: Icon(
 							iconType.icon,
-							color: _iconColors[iconType.value],
+							color: _iconColors[iconType.value]
 						)
 				)
 			],
