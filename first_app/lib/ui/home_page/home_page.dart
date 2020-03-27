@@ -104,10 +104,10 @@ class _HomePageState extends State<HomePage> {
 			_title = AppLocalizations.of(context).translate('data_is_loading');
 			_info = '...';
 			_image = 'assets/platzhalter_bild.jpg';
-			// Reset icon to first icon
-			_resetMyIconList();
 		} else {
 			_image = userBean.picture;
+			// Reset icon to first icon
+			_myIconListBuild.reset();
 			_updateInfoByIcon(IconType.Webcam);
 		}
 	}
@@ -137,15 +137,6 @@ class _HomePageState extends State<HomePage> {
 				break;
 			default:
 				break;
-		}
-	}
-	
-	void _resetMyIconList() {
-		try {
-			_myIconListBuild.reset();
-		}
-		catch (Exception1) {
-			print(Exception1);
 		}
 	}
 	
