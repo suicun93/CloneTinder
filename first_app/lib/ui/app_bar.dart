@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'dart:ui';
 
 import '../common/constants.dart';
-import '../generated/demo_localizations.dart';
+import '../i18n/demo_localizations.dart';
 
 class MyAppBar extends StatelessWidget {
 	VoidCallback homeClick;

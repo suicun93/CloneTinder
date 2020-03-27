@@ -61,14 +61,14 @@ class _MyIconListState extends State<MyIconList> {
 					color: _selectedIcon == iconType ? defaultSelectedColor : Colors.transparent,
 				),
 				IconButton(
-						onPressed: () =>
-								setState(() =>
-								{
-									_iconColors[_selectedIcon.value] = defaultColor,
-									// Change previous selected icon's color
-									_selectedIcon = _icons[iconType.value],
-									_myIconList.onPressIcon(_icons[iconType.value])
-								}),
+						onPressed: () {
+							setState(() {
+								// Change previous selected icon's color
+								_iconColors[_selectedIcon.value] = defaultColor;
+								_selectedIcon = _icons[iconType.value];
+							});
+							_myIconList.onPressIcon(_icons[iconType.value]);
+						},
 						splashColor: Colors.transparent,
 						highlightColor: Colors.transparent,
 						icon: Icon(
@@ -81,10 +81,9 @@ class _MyIconListState extends State<MyIconList> {
 	}
 	
 	void reset() {
-		setState(() =>
-		{
-			_iconColors[_selectedIcon.value] = defaultColor,
-			_selectedIcon = IconType.Webcam
+		setState(() {
+			_iconColors[_selectedIcon.value] = defaultColor;
+			_selectedIcon = IconType.Webcam;
 		});
 	}
 }

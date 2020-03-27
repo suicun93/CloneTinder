@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-import 'generated/demo_localizations.dart';
+import 'i18n/demo_localizations.dart';
 import 'ui/home_page/favorite_list.dart';
 import 'ui/home_page/home_page.dart';
 import 'ui/app_bar.dart';

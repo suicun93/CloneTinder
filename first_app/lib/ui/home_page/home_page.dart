@@ -7,7 +7,7 @@ import '../../common/string_extension.dart';
 import '../../dom/database_helpers.dart';
 import '../../model/JSON_user.dart';
 import '../../ui/home_page/my_icon_list.dart';
-import '../../generated/demo_localizations.dart';
+import '../../i18n/demo_localizations.dart';
 
 class HomePage extends StatefulWidget {
 	@override
@@ -25,9 +25,7 @@ class _HomePageState extends State<HomePage> {
 	_HomePageState() {
 		_myIconListBuild = MyIconList(
 				onPressIcon: (selectedIcon) =>
-						setState(() =>
-								_updateInfoByIcon(selectedIcon)
-						)
+						setState(() => _updateInfoByIcon(selectedIcon))
 		);
 	}
 	
@@ -124,7 +122,7 @@ class _HomePageState extends State<HomePage> {
 				_info = _currentUserbean.phone;
 				break;
 			case IconType.Lock:
-				_info = _currentUserbean.username.capitalize();
+				_info = _currentUserbean.username.titleCase();
 				break;
 		}
 	}
