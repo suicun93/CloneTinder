@@ -28,7 +28,7 @@ class _MyIconListState extends State<MyIconList> {
 	
 	_MyIconListState(this._myIconList);
 	
-	var _iconColors = [defaultColor, defaultColor, defaultColor, defaultColor, defaultColor];
+	var _iconColors = List.filled(5, defaultColor);
 	var _icons = [
 		IconType.Webcam,
 		IconType.Calendar,
@@ -72,8 +72,8 @@ class _MyIconListState extends State<MyIconList> {
 						splashColor: Colors.transparent,
 						highlightColor: Colors.transparent,
 						icon: Icon(
-							iconType.icon,
-							color: _iconColors[iconType.value]
+								iconType.icon,
+								color: _iconColors[iconType.value]
 						)
 				)
 			],
