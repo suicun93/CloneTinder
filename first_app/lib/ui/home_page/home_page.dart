@@ -18,7 +18,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 	String _title = 'Data is loading';
-	String _dataIsLoading = 'Data is loading';
 	String _info = '...';
 	String _image = 'assets/platzhalter_bild.jpg';
 	UserBean _currentUserbean;
@@ -36,7 +35,6 @@ class _HomePageState extends State<HomePage> {
 	
 	@override
 	Widget build(BuildContext context) {
-		_dataIsLoading = AppLocalizations.of(context).translate('data_is_loading');
 		return
 			Column(
 					children: <Widget>[
@@ -100,10 +98,10 @@ class _HomePageState extends State<HomePage> {
 		_loadAPI();
 	}
 	
-	_setupUser(UserBean userBean) {
+	void _setupUser(UserBean userBean) {
 		_currentUserbean = userBean;
 		if (userBean == null) {
-			_title = _dataIsLoading;
+			_title = AppLocalizations.of(context).translate('data_is_loading');
 			_info = '...';
 			_image = 'assets/platzhalter_bild.jpg';
 			// Reset icon to first icon
@@ -114,7 +112,7 @@ class _HomePageState extends State<HomePage> {
 		}
 	}
 	
-	_updateInfoByIcon(IconType selectedIcon) {
+	void _updateInfoByIcon(IconType selectedIcon) {
 		_title = '${AppLocalizations.of(context).translate('My')} '
 				'${AppLocalizations.of(context).translate(selectedIcon.text)} '
 				'${AppLocalizations.of(context).translate('is')}';
@@ -142,7 +140,7 @@ class _HomePageState extends State<HomePage> {
 		}
 	}
 	
-	_resetMyIconList() {
+	void _resetMyIconList() {
 		try {
 			_myIconListBuild.reset();
 		}
@@ -169,8 +167,8 @@ class _HomePageState extends State<HomePage> {
 	}
 	
 	@override
-	void initState() {
-		super.initState();
+	void didChangeDependencies() {
+		super.didChangeDependencies();
 		_loadAPI();
 	}
 }
