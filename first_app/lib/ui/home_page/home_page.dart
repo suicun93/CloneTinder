@@ -18,10 +18,11 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 	String _title = 'Data is loading';
+	String _dataIsLoading = 'Data is loading';
 	String _info = '...';
 	String _image = 'assets/platzhalter_bild.jpg';
 	UserBean _currentUserbean;
-	bool isLoading = false;
+	bool _isLoading = false;
 	MyIconList _myIconListBuild;
 	
 	_HomePageState() {
@@ -35,6 +36,7 @@ class _HomePageState extends State<HomePage> {
 	
 	@override
 	Widget build(BuildContext context) {
+		_dataIsLoading = AppLocalizations.of(context).translate('data_is_loading');
 		return
 			Column(
 					children: <Widget>[
@@ -76,24 +78,24 @@ class _HomePageState extends State<HomePage> {
 	}
 	
 	void _loadAPI() async {
-		if (!isLoading) {
-			isLoading = true;
+		if (!_isLoading) {
+			_isLoading = true;
 			// Reset UI to wait API
 			setState(() => _setupUser(null));
 			// Load from API
 			JSONUser futureUser = await Network.loadUser();
 			// Change data on UI
 			setState(() => _setupUser(futureUser.results[0].user));
-			isLoading = false;
+			_isLoading = false;
 		}
 	}
 	
 	void _saveData() async {
-		if (!isLoading) {
-			isLoading = true;
+		if (!_isLoading) {
+			_isLoading = true;
 			DatabaseHelper databaseHelper = DatabaseHelper.instance;
 			await databaseHelper.save(User.fromJSON(_currentUserbean));
-			isLoading = false;
+			_isLoading = false;
 		}
 		_loadAPI();
 	}
@@ -101,7 +103,7 @@ class _HomePageState extends State<HomePage> {
 	_setupUser(UserBean userBean) {
 		_currentUserbean = userBean;
 		if (userBean == null) {
-//			_title = AppLocalizations.of(context).translate('data_is_loading');
+			_title = _dataIsLoading;
 			_info = '...';
 			_image = 'assets/platzhalter_bild.jpg';
 			// Reset icon to first icon
@@ -112,18 +114,7 @@ class _HomePageState extends State<HomePage> {
 		}
 	}
 	
-	@override
-	didChangeDependencies() {
-		super.didChangeDependencies();
-		_title = '${AppLocalizations.of(context).translate('My')} '
-				'${AppLocalizations.of(context).translate(this._selectedIcon.text)} '
-				'${AppLocalizations.of(context).translate('is')}';
-	}
-	
-	IconType _selectedIcon = IconType.Webcam;
-	
 	_updateInfoByIcon(IconType selectedIcon) {
-		_selectedIcon = selectedIcon;
 		_title = '${AppLocalizations.of(context).translate('My')} '
 				'${AppLocalizations.of(context).translate(selectedIcon.text)} '
 				'${AppLocalizations.of(context).translate('is')}';
@@ -161,7 +152,7 @@ class _HomePageState extends State<HomePage> {
 	}
 	
 	Widget _buildImage() {
-		if (!isLoading)
+		if (!_isLoading)
 			return FadeInImage.assetNetwork(
 					fadeInDuration: Duration(milliseconds: 10),
 					fadeOutDuration: Duration(milliseconds: 10),
