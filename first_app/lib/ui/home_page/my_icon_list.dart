@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:Tinder/common/constants.dart';
+import '../../common/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -8,19 +8,19 @@ class MyIconList extends StatefulWidget {
 	Function(IconType) onPressIcon;
 	
 	MyIconList({this.onPressIcon}) {
-		__myIconListState = _MyIconListState(this);
+		_myIconListState = _MyIconListState(this);
 	}
 	
-	_MyIconListState __myIconListState;
+	_MyIconListState _myIconListState;
 	
 	reset() {
-		if (__myIconListState != null) {
-			__myIconListState.reset();
+		if (_myIconListState != null) {
+			_myIconListState.reset();
 		}
 	}
 	
 	@override
-	_MyIconListState createState() => __myIconListState;
+	_MyIconListState createState() => _myIconListState;
 }
 
 class _MyIconListState extends State<MyIconList> {

@@ -1,12 +1,12 @@
-import 'package:Tinder/ui/home_page/MyIconList.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../common/constants.dart';
 import '../../common/network.dart';
+import '../../common/string_extension.dart';
 import '../../dom/database_helpers.dart';
 import '../../model/JSON_user.dart';
-import '../../common/string_extension.dart';
+import '../../ui/home_page/my_icon_list.dart';
 
 class HomePage extends StatefulWidget {
 	@override
@@ -17,55 +17,31 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 	String _title = 'Data is loading';
-	String _info = 'XXXX';
+	String _info = '...';
 	String _image = 'assets/platzhalter_bild.jpg';
-	UserBean _userBean;
-	bool loading = false;
-	IconType selectedIcon = IconType.Webcam;
+	UserBean _currentUserbean;
+	bool isLoading = false;
+	MyIconList _myIconListBuild;
 	
 	_HomePageState() {
 		_myIconListBuild = MyIconList(
-				onPressIcon: (selectedIcon2) =>
-						setState(() => this.selectedIcon = selectedIcon2)
+				onPressIcon: (selectedIcon) =>
+						setState(() =>
+								_updateInfoByIcon(selectedIcon)
+						)
 		);
 	}
 	
 	@override
 	Widget build(BuildContext context) {
-		if (_userBean != null) {
-			_image = _userBean.picture;
-			_title = 'My ${selectedIcon.text} is';
-			switch (selectedIcon) {
-				case IconType.Webcam:
-					_info = ('${_userBean.name.title} '
-							'${_userBean.name.first} '
-							'${_userBean.name.last}')
-							.titleCase();
-					break;
-				case IconType.Calendar:
-					_info = _userBean.email;
-					break;
-				case IconType.Map:
-					_info = _userBean.location.street.titleCase();
-					break;
-				case IconType.Phone:
-					_info = _userBean.phone;
-					break;
-				case IconType.Lock:
-					_info = _userBean.username.capitalize();
-					break;
-				default:
-					break;
-			}
-		}
 		return
 			Column(
 					children: <Widget>[
 						GestureDetector(onPanUpdate: (details) {
 							if (details.delta.dx > 0)
-								saveData();
+								_saveData();
 							else
-								loadAPI();
+								_loadAPI();
 						},
 							child: Container(
 								alignment: Alignment.center,
@@ -98,10 +74,80 @@ class _HomePageState extends State<HomePage> {
 			);
 	}
 	
-	MyIconList _myIconListBuild;
+	void _loadAPI() async {
+		if (!isLoading) {
+			isLoading = true;
+			// Reset UI to wait API
+			setState(() => _setupUser(null));
+			// Load from API
+			JSONUser futureUser = await Network.loadUser();
+			// Change data on UI
+			setState(() => _setupUser(futureUser.results[0].user));
+			isLoading = false;
+		}
+	}
+	
+	void _saveData() async {
+		if (!isLoading) {
+			isLoading = true;
+			DatabaseHelper databaseHelper = DatabaseHelper.instance;
+			await databaseHelper.save(User.fromJSON(_currentUserbean));
+			isLoading = false;
+		}
+		_loadAPI();
+	}
+	
+	_setupUser(UserBean userBean) {
+		_currentUserbean = userBean;
+		if (userBean == null) {
+			_title = 'Data is loading';
+			_info = '...';
+			_image = 'assets/platzhalter_bild.jpg';
+			// Reset icon to first icon
+			_resetMyIconList();
+		} else {
+			_image = userBean.picture;
+			_updateInfoByIcon(IconType.Webcam);
+		}
+	}
+	
+	_updateInfoByIcon(IconType selectedIcon) {
+		_title = 'My ${selectedIcon.text} is';
+		switch (selectedIcon) {
+			case IconType.Webcam:
+				_info = ('${_currentUserbean.name.title} '
+						'${_currentUserbean.name.first} '
+						'${_currentUserbean.name.last}')
+						.titleCase();
+				break;
+			case IconType.Calendar:
+				_info = _currentUserbean.email;
+				break;
+			case IconType.Map:
+				_info = _currentUserbean.location.street.titleCase();
+				break;
+			case IconType.Phone:
+				_info = _currentUserbean.phone;
+				break;
+			case IconType.Lock:
+				_info = _currentUserbean.username.capitalize();
+				break;
+			default:
+				break;
+		}
+	}
+	
+	_resetMyIconList() {
+		try {
+			_myIconListBuild.reset();
+		}
+		catch (Exception1) {
+			print(Exception1);
+		}
+	}
 	
 	Widget _buildImage() {
-		if (!loading)
+		if (!isLoading)
 			return FadeInImage.assetNetwork(
 					fadeInDuration: Duration(milliseconds: 10),
 					fadeOutDuration: Duration(milliseconds: 10),
@@ -117,40 +163,9 @@ class _HomePageState extends State<HomePage> {
 					height: 380);
 	}
 	
-	void saveData() async {
-		if (!loading) {
-			loading = true;
-			DatabaseHelper databaseHelper = DatabaseHelper.instance;
-			await databaseHelper.save(User.fromJSON(_userBean));
-			loading = false;
-		}
-		loadAPI();
-	}
-	
-	void loadAPI() async {
-		if (!loading) {
-			loading = true;
-			setState(() =>
-			{
-				_userBean = null,
-				_title = 'Data is loading',
-				_info = '...',
-				_image = 'assets/platzhalter_bild.jpg',
-				selectedIcon = IconType.Webcam,
-			});
-			JSONUser futureUser = await Network.loadUser();
-			_userBean = futureUser.results[0].user;
-			loading = false;
-			setState(() =>
-			{
-				_myIconListBuild.reset()
-			});
-		}
-	}
-	
 	@override
 	void initState() {
 		super.initState();
-		loadAPI();
+		_loadAPI();
 	}
 }
