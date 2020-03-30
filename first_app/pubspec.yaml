@@ -17,13 +17,15 @@ dependencies:
     # Khong biet de lam j :(
     english_words: ^3.1.0
     # Call HttpRequest to get API
-    http:
+    http: any
     # Database
     sqflite: ^1.0.0
     # Patch data from database to object
     path_provider: ^0.4.1
     # Change app icon
     flutter_launcher_icons: ^0.7.2+1
+    # Implement BLoC
+    flutter_bloc: ^0.18.2
 dev_dependencies:
     flutter_test:
         sdk: flutter

@@ -1,63 +1,49 @@
+import 'package:Tinder/data/repository/users_repository.dart';
+import 'package:Tinder/feature/home/favorite_list/get_users_bloc.dart';
+import 'package:Tinder/feature/home/favorite_list/get_users_state.dart';
+import 'package:Tinder/feature/home/favorite_list/users_event.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:convert';
 import 'dart:typed_data';
 
 import '../../dom/database_helpers.dart';
 import '../../common/string_extension.dart';
 
-class FavoriteList extends StatelessWidget {
+class FavoriteList extends StatefulWidget {
+	@override
+	_FavoriteListState createState() => _FavoriteListState();
+}
+
+class _FavoriteListState extends State<FavoriteList> {
+	GetUsersBloc _getUsersBloc;
+	
+	@override
+	void initState() {
+		super.initState();
+		_getUsersBloc = GetUsersBloc(userRepository: UserRepository());
+	}
+	
 	@override
 	Widget build(BuildContext context) {
-		return FutureBuilder<List<User>>(
-			future: DatabaseHelper.instance.read(),
-			builder: (BuildContext context, AsyncSnapshot<List<User>> snapshot) {
-				Widget child;
-				if (snapshot.hasData) {
-					List<User> users = snapshot.data;
-					child = Expanded(
-						child: ListView.builder(
-							itemBuilder: (context, index) => _buildItem(users[index]),
-							itemCount: users.length,
-						),
-					);
-				} else if (snapshot.hasError)
-					child =
-							Column(
-								mainAxisAlignment: MainAxisAlignment.center,
-								crossAxisAlignment: CrossAxisAlignment.center,
-								children: <Widget>[
-									Icon(
-										Icons.error_outline,
-										color: Colors.red,
-										size: 60,
-									),
-									Padding(
-										padding: const EdgeInsets.only(top: 16),
-										child: Text('Error: ${snapshot.error}'),
-									)
-								],
-							);
-				else
-					child = Column(
-							mainAxisAlignment: MainAxisAlignment.center,
-							crossAxisAlignment: CrossAxisAlignment.center,
-							children: <Widget>[
-								SizedBox(
-									child: CircularProgressIndicator(),
-									width: 60,
-									height: 60,
-								),
-								const Padding(
-									padding: EdgeInsets.only(top: 16),
-									child: Text('Awaiting result...'),
-								)
-							]
-					);
-				return
-					child;
-			},
-		);
+		_getUsersBloc.dispatch(GetUsersEvent());
+		return
+			BlocProvider(
+				builder: (context) => _getUsersBloc,
+				child: BlocBuilder(
+						bloc: _getUsersBloc,
+						builder: (context, GetUsersState state) {
+							if (state is GetUsersUnInitial)
+								return Container();
+							else if (state is GetUsersLoading)
+								return _loadingWidget();
+							else if (state is GetUsersSuccess)
+								return _listBuilder(state.users);
+							else
+								return _errorWidget();
+						}),
+			);
 	}
 	
 	Widget _buildItem(User user) {
@@ -88,4 +74,49 @@ class FavoriteList extends StatelessWidget {
 		);
 	}
 	
+	Widget _listBuilder(List<User> users) {
+		return Expanded(
+				child: ListView.builder(
+					itemBuilder: (context, index) => _buildItem(users[index]),
+					itemCount: users.length,
+				)
+		);
+	}
+	
+	Widget _loadingWidget() {
+		return
+			Column(
+					mainAxisAlignment: MainAxisAlignment.center,
+					crossAxisAlignment: CrossAxisAlignment.center,
+					children: <Widget>[
+						SizedBox(
+							child: CircularProgressIndicator(),
+							width: 60,
+							height: 60,
+						),
+						const Padding(
+							padding: EdgeInsets.only(top: 16),
+							child: Text('Awaiting result...'),
+						)
+					]
+			);
+	}
+	
+	Widget _errorWidget() {
+		return Column(
+			mainAxisAlignment: MainAxisAlignment.center,
+			crossAxisAlignment: CrossAxisAlignment.center,
+			children: <Widget>[
+				Icon(
+					Icons.error_outline,
+					color: Colors.red,
+					size: 60,
+				),
+				Padding(
+					padding: const EdgeInsets.only(top: 16),
+					child: Text('Error'),
+				)
+			],
+		);
+	}
 }
