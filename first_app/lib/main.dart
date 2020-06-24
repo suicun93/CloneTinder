@@ -24,6 +24,9 @@ void main() {
 			const Locale('ja'), // Japanese
 			// ... other locales the app supports
 		],
+Gj lbnelkjr Nile tg
+ Ekrng; leknrg
+E ldkg'en 'kin
 		debugShowCheckedModeBanner: false,
 		title: app_name,
 		home: MyHomePage(),
